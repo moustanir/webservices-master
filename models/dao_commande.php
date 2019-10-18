@@ -95,7 +95,24 @@ class DaoCommande {
     }
 
     public static function findCommandeProduit($idCommande){
-        
+        if($pdo = self::connect()){
+            $requete = $pdo->prepare("SELECT id_produit FROM commande_produit WHERE id_commande = :id");
+            $requete->bindParam(':id',$idCommande);
+            $requete->execute();
+
+            $produits = $requete->fetchAll(PDO::FETCH_ASSOC);
+
+            $id_list = "(-1";
+            for($i = 0; $i < count($produits); $i++) {
+                $id_list = $id_list.",".$produits[$i]["id_produit"];
+            }
+            $id_list = $id_list.")";
+
+            $requete2 = $pdo->prepare("SELECT * FROM produit WHERE id_produit in ".$id_list);
+            $requete2->execute();
+            return $requete2->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return null;
     }
 }
 ?>

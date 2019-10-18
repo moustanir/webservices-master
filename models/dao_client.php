@@ -12,7 +12,7 @@ class DaoClient {
     }
     public static function find($idUser){
         if($pdo = self::connect()){
-            $requete = $pdo->prepare("SELECT * FROM ".self::TABLE_NAME. " WHERE `id_client` = :id");
+            $requete = $pdo->prepare("SELECT c.*, v.nom as ville FROM ".self::TABLE_NAME. " c left join ville v on c.id_ville = v.id_ville WHERE `id_client` = :id");
             $requete->bindParam(':id',$idUser);
             $requete->execute();
             return $requete->fetch(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class DaoClient {
     }
     public static function findAll(){
         if($pdo = self::connect()){
-            $requete = $pdo->prepare("SELECT * FROM ".self::TABLE_NAME);
+            $requete = $pdo->prepare("SELECT c.*, v.nom as ville FROM ".self::TABLE_NAME. " c left join ville v on c.id_ville = v.id_ville");
             $requete->execute();
             return $requete->fetchAll(PDO::FETCH_ASSOC);
         }

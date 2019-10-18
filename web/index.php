@@ -20,7 +20,7 @@ function toJson($resultat, $httpCode = 200)
     global $app;
     $response["success"] = true;
     $response["results"]["nb"] = count($resultat);
-    $response["results"]["clients"] = $resultat;
+    $response["results"]["data"] = $resultat;
     return $app->json($response, $httpCode);
 }
 
