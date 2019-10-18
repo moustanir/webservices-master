@@ -40,6 +40,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # pour Moustanir
-vendor/*
+/vendor/*
 
 # End of https://www.gitignore.io/api/windows,visualstudiocode
