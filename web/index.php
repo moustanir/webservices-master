@@ -14,7 +14,7 @@ $app->before(function (Request $request) {
         $request->request->replace(is_array($data) ? $data : array());
     }
 });
-
+header("Access-Control-Allow-Origin: *");
 function toJson($resultat, $httpCode = 200)
 {
     global $app;
