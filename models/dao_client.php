@@ -1,18 +1,18 @@
 <?php
-class DaoUser {
-    const TABLE_NAME = "user";
+class DaoClient {
+    const TABLE_NAME = "client";
     public static function connect(){
         $hote = 'localhost';
-        $nom_bdd = "formation";
+        $nom_bdd = "webservices";
         $utilisateur = 'root';
         $mot_de_passe = "";
-        $pdo = new PDO('mysql:host='.$hote.';dbname='.$nom_bdd,$utilisateur,$mot_de_passe);
+        $pdo = new PDO('mysql:host='.$hote.';dbname='.$nom_bdd,$utilisateur,$mot_de_passe,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
     public static function find($idUser){
         if($pdo = self::connect()){
-            $requete = $pdo->prepare("SELECT * FROM ".self::TABLE_NAME. " WHERE `id_user` = :id");
+            $requete = $pdo->prepare("SELECT * FROM ".self::TABLE_NAME. " WHERE `id_client` = :id");
             $requete->bindParam(':id',$idUser);
             $requete->execute();
             return $requete->fetch(PDO::FETCH_ASSOC);
@@ -29,7 +29,7 @@ class DaoUser {
     }
     public static function delete($idUser){
         if($pdo = self::connect()){
-            $requete = $pdo->prepare("DELETE FROM ".self::TABLE_NAME. " WHERE `id_user` = :id");
+            $requete = $pdo->prepare("DELETE FROM ".self::TABLE_NAME. " WHERE `id_client` = :id");
             $requete->bindParam(':id',$idUser);
             $requete->execute();
             return array(
@@ -48,8 +48,8 @@ class DaoUser {
         if(empty($id)){
             return array("status"=>"error","message" => "Id params null.Cannot update");
         }
-        $request = "UPDATE user SET ";
-        $condition = " WHERE id_user = ".$id.";";
+        $request = "UPDATE".self::TABLE_NAME." SET ";
+        $condition = " WHERE id_client = ".$id.";";
         foreach($fields as $field => $value){
             if(!empty($value)){
                 $request = $request." $field='$value',";
@@ -73,8 +73,8 @@ class DaoUser {
         $request = "INSERT INTO ".self::TABLE_NAME." (";
         $requestValue = "(";
 		foreach ($user as $key => $value) {
-			$request = $request.$key.",";
-			$requestValue = $requestValue.'"'.$value.'",';
+            $request = $request.$key.",";
+            $requestValue = $requestValue.'"'.$value.'",';
 		}
 		$request = substr_replace($request ,"", -1);
 		$requestValue = substr_replace($requestValue,"", -1);

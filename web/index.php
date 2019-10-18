@@ -1,7 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../models/dao_user.php';
+require_once __DIR__ . '/../models/dao_client.php';
+require_once __DIR__ . '/../models/dao_commande.php';
+require_once __DIR__ . '/../models/dao_produit.php';
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +20,7 @@ function toJson($resultat, $httpCode = 200)
     global $app;
     $response["success"] = true;
     $response["results"]["nb"] = count($resultat);
-    $response["results"]["users"] = $resultat;
+    $response["results"]["clients"] = $resultat;
     return $app->json($response, $httpCode);
 }
 
@@ -26,32 +28,103 @@ $app->get('/', function () {
     return 'Hello world';
 });
 
-$app->get("/user", function () {
-    return toJson(DaoUser::findAll());
+// ----------- Clients ----------- \\
+
+$app->get("/client", function () {
+    return toJson(DaoClient::findAll());
 });
 
-$app->post("/user", function (Request $request) {
-    $columnToFetch = array("email", "login", "nom", "password", "prenom", "profil");
+$app->post("/client", function (Request $request) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
     $data = array();
     foreach ($columnToFetch as $column) {
         $data[$column] = $request->request->get($column);
     }
-    return toJson(DaoUser::add($data));
+    return toJson(DaoClient::add($data));
 });
 
-$app->get("/user/{id}", function ($id) {
-    return toJson(DaoUser::find($id));
+$app->get("/client/{id}", function ($id) {
+    return toJson(DaoClient::find($id));
 });
 
-$app->put("/user/{id}", function (Request $request, $id) {
-    $columnToFetch = array("email", "login", "nom", "password", "prenom", "profil");
+$app->put("/client/{id}", function (Request $request, $id) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
     $data = array();
     foreach ($columnToFetch as $column) {
         $data[$column] = $request->request->get($column);
     }
-    return toJson(DaoUser::update($id, $data));
+    return toJson(DaoClient::update($id, $data));
 });
-$app->delete("/user/{id}", function ($id) {
-    return toJson(DaoUser::delete($id));
+$app->delete("/client/{id}", function ($id) {
+    return toJson(DaoClient::delete($id));
 });
+
+// ----------- Fin Clients ----------- \\
+
+// ----------- Commandes ----------- \\
+
+$app->get("/commande", function () {
+    return toJson(DaoCommande::findAll());
+});
+
+$app->post("/commande", function (Request $request) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
+    $data = array();
+    foreach ($columnToFetch as $column) {
+        $data[$column] = $request->request->get($column);
+    }
+    return toJson(DaoCommande::add($data));
+});
+
+$app->get("/commande/{id}", function ($id) {
+    return toJson(DaoCommande::find($id));
+});
+
+$app->put("/commande/{id}", function (Request $request, $id) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
+    $data = array();
+    foreach ($columnToFetch as $column) {
+        $data[$column] = $request->request->get($column);
+    }
+    return toJson(DaoCommande::update($id, $data));
+});
+$app->delete("/commande/{id}", function ($id) {
+    return toJson(DaoCommande::delete($id));
+});
+
+// ----------- Fin Commandes ----------- \\
+
+// ----------- Produits ----------- \\
+
+$app->get("/produit", function () {
+    return toJson(DaoProduit::findAll());
+});
+
+$app->post("/produit", function (Request $request) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
+    $data = array();
+    foreach ($columnToFetch as $column) {
+        $data[$column] = $request->request->get($column);
+    }
+    return toJson(DaoProduit::add($data));
+});
+
+$app->get("/produit/{id}", function ($id) {
+    return toJson(DaoProduit::find($id));
+});
+
+$app->put("/produit/{id}", function (Request $request, $id) {
+    $columnToFetch = array("nom", "prenom", "adresse", "date_naissance", "civilite", "numero", "id_ville");
+    $data = array();
+    foreach ($columnToFetch as $column) {
+        $data[$column] = $request->request->get($column);
+    }
+    return toJson(DaoProduit::update($id, $data));
+});
+$app->delete("/produit/{id}", function ($id) {
+    return toJson(DaoProduit::delete($id));
+});
+
+// ----------- Fin Produits ----------- \\
+
 $app->run();
