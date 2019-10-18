@@ -1,5 +1,8 @@
 <?php
-class DaoProduit {
+
+require_once __DIR__ . './connect.php';
+
+class DaoProduit extends ConnectSuperClass {
     const TABLE_NAME = "produit";
     public static function connect(){
         $hote = 'localhost';

@@ -1,15 +1,10 @@
 <?php
-class DaoClient {
+
+require_once __DIR__ . './connect.php';
+
+class DaoClient extends ConnectSuperClass {
     const TABLE_NAME = "client";
-    public static function connect(){
-        $hote = 'localhost';
-        $nom_bdd = "webservices";
-        $utilisateur = 'root';
-        $mot_de_passe = "";
-        $pdo = new PDO('mysql:host='.$hote.';dbname='.$nom_bdd,$utilisateur,$mot_de_passe,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-    }
+    
     public static function find($idUser){
         if($pdo = self::connect()){
             $requete = $pdo->prepare("SELECT c.*, v.nom as ville FROM ".self::TABLE_NAME. " c left join ville v on c.id_ville = v.id_ville WHERE `id_client` = :id");

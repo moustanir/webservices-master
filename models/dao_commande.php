@@ -1,5 +1,8 @@
 <?php
-class DaoCommande {
+
+require_once __DIR__ . './connect.php';
+
+class DaoCommande extends ConnectSuperClass {
     const TABLE_NAME = "commande";
     public static function connect(){
         $hote = 'localhost';
