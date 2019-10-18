@@ -108,7 +108,7 @@ class DaoCommande {
             }
             $id_list = $id_list.")";
 
-            $requete2 = $pdo->prepare("SELECT * FROM produit WHERE id_produit in ".$id_list);
+            $requete2 = $pdo->prepare("SELECT p.*, f.nom as fournisseur, v.nom as ville FROM produit p left join fournisseur f on p.id_fournisseur = f.id_fournisseur left join ville v on f.id_ville = v.id_ville WHERE id_produit in ".$id_list);
             $requete2->execute();
             return $requete2->fetchAll(PDO::FETCH_ASSOC);
         }
