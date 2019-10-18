@@ -93,5 +93,9 @@ class DaoCommande {
         }
 		return null;
     }
+
+    public static function findCommandeProduit($idCommande){
+        
+    }
 }
 ?>

@@ -59,6 +59,10 @@ $app->delete("/client/{id}", function ($id) {
     return toJson(DaoClient::delete($id));
 });
 
+$app->get("/client/{id}/commande", function ($id) {
+    return toJson(DaoClient::findUserCommande($id));
+});
+
 // ----------- Fin Clients ----------- \\
 
 // ----------- Commandes ----------- \\
@@ -90,6 +94,10 @@ $app->put("/commande/{id}", function (Request $request, $id) {
 });
 $app->delete("/commande/{id}", function ($id) {
     return toJson(DaoCommande::delete($id));
+});
+
+$app->get("/commande/{id}/produit", function ($id) {
+    return toJson(DaoCommande::findCommandeProduit($id));
 });
 
 // ----------- Fin Commandes ----------- \\

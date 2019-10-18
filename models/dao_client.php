@@ -92,4 +92,14 @@ class DaoClient {
         }
 		return null;
     }
+
+    public static function findUserCommande($idUser){
+        if($pdo = self::connect()){
+            $requete = $pdo->prepare("SELECT * FROM "."commande"." WHERE `id_client` = :id");
+            $requete->bindParam(':id',$idUser);
+            $requete->execute();
+            return $requete->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return null;
+    }
 }
