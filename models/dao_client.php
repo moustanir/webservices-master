@@ -21,7 +21,21 @@ class DaoClient {
     }
     public static function findAll(){
         if($pdo = self::connect()){
-            $requete = $pdo->prepare("SELECT c.*, v.nom as ville FROM ".self::TABLE_NAME. " c left join ville v on c.id_ville = v.id_ville");
+            $requete = $pdo->prepare("
+                SELECT 
+                    c.*, 
+                    v.nom as ville,
+                    (
+                        SELECT
+                            count(*)
+                        FROM
+                            commande
+                        WHERE
+                            id_client = c.id_client
+                    ) as nbCommande
+                FROM 
+                    client c 
+                    left join ville v on c.id_ville = v.id_ville");
             $requete->execute();
             return $requete->fetchAll(PDO::FETCH_ASSOC);
         }
